@@ -92,7 +92,7 @@ const Navbar: React.FC = () => {
                             {userData.name}
                         </span>
                         {dropdownOpen && (
-                            <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg backdrop-blur-md bg-white bg-opacity-30 z-10">
+                            <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg backdrop-blur-md bg-white bg-opacity-30 z-10 top-full">
                                 <ul className="py-1">
                                     <li>
                                         <a
