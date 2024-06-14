@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Kep from '../Images/image4.png';
+import { Link } from 'react-router-dom';
 
 interface UserData {
     name: string;
@@ -94,6 +95,14 @@ const Navbar: React.FC = () => {
                             <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg backdrop-blur-md bg-white bg-opacity-30 z-10">
                                 <ul className="py-1">
                                     <li>
+                                        <a
+                                            href="/dashboard"
+                                            className="block w-full text-left px-4 py-2 text-sm text-gray-800 hover:bg-gray-100"
+                                        >
+                                            Kezelőpanel
+                                        </a>
+                                    </li>
+                                    <li>
                                         <button
                                             className="block w-full text-left px-4 py-2 text-sm text-gray-800 hover:bg-gray-100"
                                             onClick={handleLogout}
@@ -101,30 +110,22 @@ const Navbar: React.FC = () => {
                                             Kijelentkezés
                                         </button>
                                     </li>
-                                    <li>
-                                        <a
-                                            href="#"
-                                            className="block w-full text-left px-4 py-2 text-sm text-gray-800 hover:bg-gray-100"
-                                        >
-                                            Kezelőpanel
-                                        </a>
-                                    </li>
                                 </ul>
                             </div>
                         )}
                     </div>
                 ) : (
                     <div className="flex items-center">
-                        <button onClick={() => location.reload()} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        <Link to="/login" className="bg-[#886759] hover:bg-[#755547] text-white font-bold py-2 px-4 rounded">
                             Bejelentkezés
-                        </button>
+                        </Link>
                     </div>
                 )
             ) : (
                 <div className="flex items-center">
-                    <button onClick={() => location.reload()} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    <Link to="/login" className="bg-[#886759] hover:bg-[#755547] text-white font-bold py-2 px-4 rounded">
                         Bejelentkezés
-                    </button>
+                    </Link>
                 </div>
             )}
         </nav>
