@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import Kep from '../Images/image4.png';
+import Kep from '/image4.png';
 import { Link } from 'react-router-dom';
 
 interface UserData {
@@ -48,7 +48,6 @@ const Navbar: React.FC = () => {
             .then(response => response.json())
             .then(userData => {
                 if (userData.status !== 200) {
-                    alert(userData.message);
                     localStorage.removeItem('token');
                     location.reload();
                     return;

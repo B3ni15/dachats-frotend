@@ -4,7 +4,7 @@
 
 @font-face {
     font-family: Gotham;
-    src: url('./fonts/HomepageBaukasten-Bold.ttf') format('truetype'),
+    src: url('/fonts/HomepageBaukasten-Bold.ttf') format('truetype'),
 }
 
 .Gotham {
