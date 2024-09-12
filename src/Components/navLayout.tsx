@@ -3,6 +3,7 @@ import Kep from '/image4.png';
 import { Link } from 'react-router-dom';
 
 interface UserData {
+    username: string;
     name: string;
     avatar: string;
 }
@@ -87,7 +88,7 @@ const Navbar: React.FC = () => {
                             onClick={() => setDropdownOpen(!dropdownOpen)}
                         />
                         <span className="font-medium cursor-pointer" onClick={() => setDropdownOpen(!dropdownOpen)}>
-                            {userData.name}
+                            {userData.username}
                         </span>
                         {dropdownOpen && (
                             <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg backdrop-blur-md bg-white bg-opacity-30 z-10 top-full">
