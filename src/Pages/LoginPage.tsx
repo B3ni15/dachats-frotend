@@ -6,10 +6,9 @@ const LoginPage: React.FC = () => {
     const [password, setPassword] = useState('');
 
     useEffect(() => {
-        const cookie = document.cookie;
-        const tokenFromCookie = cookie ? (cookie.split('; ').find(row => row.startsWith('token='))?.split('=')[1] as string) : null;
+        const tokenfromStorage = localStorage.getItem('token');
 
-        if (tokenFromCookie) {
+        if (tokenfromStorage) {
             window.location.href = '/'
         }
     }, []);
@@ -26,7 +25,7 @@ const LoginPage: React.FC = () => {
         };
 
         try {
-            const loginResponse = await fetch('https://api.dachats.online/api/auth/token', {
+            const loginResponse = await fetch('https://api.dachats.online/api/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -34,40 +33,14 @@ const LoginPage: React.FC = () => {
                 body: JSON.stringify(loginData)
             });
 
-            const responseData = await loginResponse.json();
-            const token = responseData.token;
+            const loginResponseData = await loginResponse.json();
+            const token = loginResponseData.token;
 
-            if (!loginResponse.ok) {
-                alert(responseData.message);
-                return;
-            }
-
-            const loggingResponse = await fetch(`https://api.dachats.online/api/auth/login?token=${token}`);
-
-            if (!loggingResponse.ok) {
-                alert('Hiba történt a bejelentkezés során! (Szerver nem elérhető!)');
-                return;
-            } else if (responseData.message === "User is not verified") {
-                alert('Kérlek hitelesítsd az email címed! (Ellenőrizd a spam mappádat is!)');
-                window.location.href = '/verify';
-                return;
-            }
-
-            const userData = await loggingResponse.json();
-
-            if (userData.status === 200) {
-                if (userData.data.twofa) {
-                    localStorage.setItem('token', token);
-                    window.location.href = '2fa';
-                } else {
-                    const Mainap = new Date();
-                    Mainap.setDate(Mainap.getDate() + 14);
-                    document.cookie = `token=${token}; path=/; expires=${Mainap.toUTCString()};`;
-                    window.location.href = '/dashboard/';
-                }
+            if (token) {
+                localStorage.setItem('token', token);
+                window.location.href = '/';
             } else {
-                alert(responseData.message);
-                return;
+                alert('Hibás felhasználónév vagy jelszó!');
             }
         } catch (error) {
             console.error('Hiba történt:', error);

@@ -27,10 +27,6 @@ const VerifyPage: React.FC = () => {
             const responseData = await verifyResponse.json();
 
             if (responseData.status === 200) {
-                const token = responseData.data.token;
-                const mainDate = new Date();
-                mainDate.setDate(mainDate.getDate() + 14);
-                document.cookie = `token=${token}; path=/; expires=${mainDate.toUTCString()};`;
                 window.location.href = './index.html';
             } else {
                 setError('Hiba történt a hitelesítés során! (Rossz kód!)');

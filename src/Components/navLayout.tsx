@@ -15,12 +15,12 @@ const Navbar: React.FC = () => {
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const cookie = document.cookie;
-        const tokenFromCookie = cookie ? (cookie.split('; ').find(row => row.startsWith('token='))?.split('=')[1] as string) : null;
+        const tokenfromStorage = localStorage.getItem('token');
 
-        if (tokenFromCookie) {
-            setToken(tokenFromCookie);
-            fetchUserData(tokenFromCookie);
+
+        if (tokenfromStorage) {
+            setToken(tokenfromStorage);
+            fetchUserData(tokenfromStorage);
         } else {
             setLoading(false);
         }
@@ -38,18 +38,18 @@ const Navbar: React.FC = () => {
     }, []);
 
     const fetchUserData = (token: string) => {
-        fetch(`https://api.dachats.online/api/auth/login?token=${token}`, {
+        fetch(`https://api.dachats.online/api/user/@me`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-            }
+                'Authorization': `${token}`,
+            },
         })
             .then(response => response.json())
             .then(userData => {
                 if (userData.status !== 200) {
                     alert(userData.message);
-                    document.cookie = 'token=; path=/;';
-                    document.cookie = 'userid=; path=/;';
+                    localStorage.removeItem('token');
                     location.reload();
                     return;
                 }
@@ -64,8 +64,7 @@ const Navbar: React.FC = () => {
     };
 
     const handleLogout = () => {
-        document.cookie = 'token=; path=/;';
-        document.cookie = 'userid=; path=/;';
+        localStorage.removeItem('token');
         location.reload();
     };
 
