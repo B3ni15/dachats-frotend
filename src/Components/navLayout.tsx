@@ -51,7 +51,9 @@ const Navbar: React.FC = () => {
     return (
         <nav className="bg-gradient-to-r backdrop-blur-md from-[#5A230C] to-[#755547] text-white p-4 flex justify-between items-center">
             <div className="flex items-center">
-                <img src={Kep} alt="Logo" className="h-9" />
+                <a href="/">
+                    <img src={Kep} alt="Logo" className="h-9" />
+                </a>
             </div>
             {loading ? (
                 <div className="flex items-center animate-pulse">
