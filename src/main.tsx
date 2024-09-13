@@ -9,6 +9,7 @@ import MainPage from './Pages/MainPage'
 import LoginPage from './Pages/LoginPage'
 import RegPage from './Pages/RegPage'
 import VerifyPage from './Pages/VerifyPage'
+import DashboardMain from './Pages/Dashboard/DashboardMain'
 
 
 const router = createBrowserRouter([
@@ -33,7 +34,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/dashboard/',
-        element: <div>Dashboard</div>,
+        element: <DashboardMain />,
       },
       {
         path: '/dashboard/profile',

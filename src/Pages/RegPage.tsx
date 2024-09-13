@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import Navbar from '../Components/navLayout';
+import { ToastContainer, toast, Bounce } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Register } from '../api/register';
 
 const RegPage: React.FC = () => {
     const [username, setUsername] = useState('');
@@ -10,41 +13,80 @@ const RegPage: React.FC = () => {
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         if (!username || !password || !email || !confirmPassword) {
-            alert('Nem adtál meg minden adatot!');
+            toast.error('Kérlek töltsd ki a mezőket!', {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
             return;
         }
 
         if (password !== confirmPassword) {
-            alert('A két jelszó nem egyezik!');
+            toast.error('A két jelszó nem egyezik meg!', {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
             return;
         }
 
-        const registerData = {
-            Username: username,
-            Password: password,
-            Email: email
-        };
-
         try {
-            const registerResponse = await fetch('https://api.dachats.online/api/auth/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(registerData)
-            });
+            const registerResponse = await Register(username, password, email);
 
-            const responseData = await registerResponse.json();
-
-            if (!registerResponse.ok) {
-                alert(responseData.message);
+            if (!registerResponse) {
+                toast.error('Valami hiba történt...', {
+                    position: "bottom-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Bounce,
+                });
                 return;
             }
 
-            if (responseData.status === 200) {
-                window.location.href = '/verify';
+            if (registerResponse) {
+                toast.success('Sikeres regisztráció! Átirányítás...', {
+                    position: "bottom-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Bounce,
+                });
+                setTimeout(() => {
+                    window.location.href = '/verify';
+                }, 1000);
             } else {
-                alert(responseData.message);
+                toast.error('Valami hiba történt...', {
+                    position: "bottom-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Bounce,
+                });
                 return;
             }
         } catch (error) {
@@ -129,6 +171,19 @@ const RegPage: React.FC = () => {
                     </p>
                 </div>
             </div>
+            <ToastContainer
+                position="bottom-right"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+                transition={Bounce}
+            />
         </>
     );
 };

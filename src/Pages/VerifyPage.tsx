@@ -1,39 +1,74 @@
 import React, { useState } from 'react';
 import Navbar from '../Components/navLayout';
+import { Verify } from '../api/verify';
+import { ToastContainer, toast, Bounce } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const VerifyPage: React.FC = () => {
     const [code, setCode] = useState('');
-    const [error, setError] = useState('');
 
     const handleVerify = async () => {
         if (!code) {
-            setError('Nem adtad meg a kódot!');
+            toast.error('Kérlek töltsd ki a mezőket!', {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
             return;
         }
 
         try {
-            const verifyResponse = await fetch(`https://api.dachats.online/api/auth/verify?code=${code}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
+            const verifyResponse = await Verify(code);
 
-            if (!verifyResponse.ok) {
-                setError('Hiba történt a hitelesítés során! (Szerver nem nem elérhető!)');
+            if (!verifyResponse) {
+                toast.error('Hiba történt a hitelesítés során!', {
+                    position: "bottom-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Bounce,
+                });
                 return;
             }
 
-            const responseData = await verifyResponse.json();
-
-            if (responseData.status === 200) {
-                window.location.href = './index.html';
+            if (verifyResponse) {
+                window.location.href = '/';
             } else {
-                setError('Hiba történt a hitelesítés során! (Rossz kód!)');
+                toast.error('Hibás hitelesítő kód!', {
+                    position: "bottom-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Bounce,
+                });
             }
         } catch (error) {
             console.error('Hiba történt:', error);
-            setError('Hiba történt a hitelesítés során!');
+            toast.error('Valami hiba történt...', {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
         }
     };
 
@@ -65,12 +100,24 @@ const VerifyPage: React.FC = () => {
                             Hitelesítés
                         </button>
                     </div>
-                    {error && <p className="text-center text-red-500 mt-4">{error}</p>}
                     <p className="text-center text-gray-300 mt-4">
                         Ezt a kódot az emailben kaptad meg!
                     </p>
                 </div>
             </div>
+            <ToastContainer
+                position="bottom-right"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+                transition={Bounce}
+            />
         </>
     );
 };

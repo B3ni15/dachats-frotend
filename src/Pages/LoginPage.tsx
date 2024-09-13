@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../Components/navLayout';
+import { Login } from '../api/Login';
+import { ToastContainer, toast, Bounce } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const LoginPage: React.FC = () => {
     const [username, setUsername] = useState('');
@@ -15,35 +18,66 @@ const LoginPage: React.FC = () => {
 
     const handleLogin = async () => {
         if (!username || !password) {
-            alert('Nem adtál meg minden adatot!');
+            toast.error('Kérlek töltsd ki a mezőket!', {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
             return;
         }
 
-        const loginData = {
-            Username: username,
-            Password: password
-        };
-
         try {
-            const loginResponse = await fetch('https://api.dachats.online/api/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(loginData)
-            });
-
-            const loginResponseData = await loginResponse.json();
-            const token = loginResponseData.token;
+            const loginResponse = await Login(username, password);
+            const token = loginResponse.token;
 
             if (token) {
+                toast.success('Sikeres bejelentkezés! Visszairányítás...', {
+                    position: "bottom-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Bounce,
+                });
                 localStorage.setItem('token', token);
-                window.location.href = '/';
+                setTimeout(() => {
+                    window.location.href = '/'
+                }, 2000);
             } else {
-                alert('Hibás felhasználónév vagy jelszó!');
+                toast.error('Hibás felhasználónév vagy jelszó!', {
+                    position: "bottom-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Bounce,
+                });
             }
         } catch (error) {
             console.error('Hiba történt:', error);
+            toast.error('Valami hiba történt...', {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
         }
     };
 
@@ -99,6 +133,19 @@ const LoginPage: React.FC = () => {
                     </p>
                 </div>
             </div>
+            <ToastContainer
+                position="bottom-right"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+                transition={Bounce}
+            />
         </>
     );
 }

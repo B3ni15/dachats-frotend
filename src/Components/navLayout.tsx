@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Kep from '/image4.png';
 import { Link } from 'react-router-dom';
+import { getMe } from '../api/getMe';
 
 interface UserData {
     username: string;
@@ -18,10 +19,14 @@ const Navbar: React.FC = () => {
     useEffect(() => {
         const tokenfromStorage = localStorage.getItem('token');
 
-
         if (tokenfromStorage) {
             setToken(tokenfromStorage);
-            fetchUserData(tokenfromStorage);
+            getMe().then(data => {
+                if (data) {
+                    setUserData(data.data);
+                }
+                setLoading(false);
+            });
         } else {
             setLoading(false);
         }
@@ -37,31 +42,6 @@ const Navbar: React.FC = () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
-
-    const fetchUserData = (token: string) => {
-        fetch(`https://api.dachats.online/api/user/@me`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `${token}`,
-            },
-        })
-            .then(response => response.json())
-            .then(userData => {
-                if (userData.status !== 200) {
-                    localStorage.removeItem('token');
-                    location.reload();
-                    return;
-                }
-                setUserData(userData.data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-    };
 
     const handleLogout = () => {
         localStorage.removeItem('token');
