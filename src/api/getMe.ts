@@ -18,6 +18,8 @@ export const getMe = async () => {
         if (localStorage.getItem('token')) {
             localStorage.removeItem('token');
         }
+
+        window.location.href = '/login';
         return false;
     }
 };
