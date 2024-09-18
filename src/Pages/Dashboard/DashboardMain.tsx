@@ -3,6 +3,7 @@ import { Friends } from '../../api/Dashboard/friends';
 import { getMe } from '../../api/getMe';
 import Navbar from '../../Components/dashNavLayout';
 import '../../../public/css/dash.css';
+import { socket } from '../../api/Dashboard/socket';
 
 const MainPage: React.FC = () => {
     interface UserData {
@@ -38,6 +39,8 @@ const MainPage: React.FC = () => {
         setTimeout(() => {
             setLoading(false);
         }, 1500);
+
+        socket();
     }, []);
 
     if (loading) {

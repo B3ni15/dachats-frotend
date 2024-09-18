@@ -12,7 +12,7 @@ const LoginPage: React.FC = () => {
         const tokenfromStorage = localStorage.getItem('token');
 
         if (tokenfromStorage) {
-            window.location.href = '/'
+            window.location.href = '/';
         }
     }, []);
 
@@ -50,7 +50,7 @@ const LoginPage: React.FC = () => {
                 });
                 localStorage.setItem('token', token);
                 setTimeout(() => {
-                    window.location.href = '/'
+                    window.location.href = '/';
                 }, 2000);
             } else {
                 toast.error('Hibás felhasználónév vagy jelszó!', {
@@ -82,9 +82,9 @@ const LoginPage: React.FC = () => {
     };
 
     return (
-        <>
+        <div className="overflow-hidden">
             <Navbar />
-            <div className="flex items-center justify-center min-h-screen">
+            <main className="flex items-center justify-center min-h-screen">
                 <div className="bg-[#303030] p-8 rounded-lg shadow-lg w-96">
                     <h1 className="text-3xl font-bold text-center text-[#755547] mb-6">Bejelentkezés</h1>
                     <form onSubmit={e => e.preventDefault()}>
@@ -132,7 +132,7 @@ const LoginPage: React.FC = () => {
                         egyet!
                     </p>
                 </div>
-            </div>
+            </main>
             <ToastContainer
                 position="bottom-right"
                 autoClose={2000}
@@ -146,7 +146,7 @@ const LoginPage: React.FC = () => {
                 theme="dark"
                 transition={Bounce}
             />
-        </>
+        </div>
     );
 }
 

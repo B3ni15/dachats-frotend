@@ -6,9 +6,9 @@ import {
   RouterProvider,
 } from 'react-router-dom'
 import MainPage from './Pages/MainPage'
-import LoginPage from './Pages/LoginPage'
+import LoginPage from './Pages/LogPage'
 import RegPage from './Pages/RegPage'
-import VerifyPage from './Pages/VerifyPage'
+import VerifyPage from './Pages/VerPage'
 import DashboardMain from './Pages/Dashboard/DashboardMain'
 
 

@@ -49,7 +49,7 @@ const Navbar: React.FC = () => {
     };
 
     return (
-        <nav className="bg-gradient-to-r backdrop-blur-md from-[#5A230C] to-[#755547] text-white p-4 flex justify-between items-center">
+        <nav className="bg-gradient-to-r backdrop-blur-md from-[#5A230C] to-[#755547] text-white p-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50">
             <div className="flex items-center">
                 <a href="/">
                     <img src={Kep} alt="Logo" className="h-9" />
@@ -73,7 +73,7 @@ const Navbar: React.FC = () => {
                             {userData.username}
                         </span>
                         {dropdownOpen && (
-                            <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg backdrop-blur-md bg-white bg-opacity-30 z-10 top-full">
+                            <div className="absolute right-0 top-full mt-2 w-48 rounded-md shadow-lg backdrop-blur-md bg-white bg-opacity-30 z-10">
                                 <ul className="py-1">
                                     <li>
                                         <a
