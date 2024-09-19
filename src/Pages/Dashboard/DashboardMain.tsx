@@ -56,7 +56,7 @@ const MainPage: React.FC = () => {
                         <div className="space-y-4">
                             {friends.map(friend => (
                                 <div className="flex items-center space-x-4" id={friend?.id}>
-                                    <img className="w-12 h-12 rounded-full" src={`https://api.dachats.online/api/files?filename=${friend?.avatar}`} alt="profile" />
+                                    <img className="w-12 h-12 rounded-full object-cover" src={`https://api.dachats.online/api/files?filename=${friend?.avatar}`} alt="profile" />
                                     <div>
                                         <h2 className="text-white">{friend?.username}</h2>
                                         <p className="text-gray-400">{friend?.status}</p>
