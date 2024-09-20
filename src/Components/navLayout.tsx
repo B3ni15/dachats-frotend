@@ -49,7 +49,7 @@ const Navbar: React.FC = () => {
     };
 
     return (
-        <nav className="bg-gradient-to-r backdrop-blur-md from-[#5A230C] to-[#755547] text-white p-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50">
+        <nav className="bg-gradient-to-r backdrop-blur-md from-[#5A230C] to-[#755547] text-white p-4 flex justify-between items-center fixed top-0 left-0 right-0 z-40">
             <div className="flex items-center">
                 <a href="/">
                     <img src={Kep} alt="Logo" className="h-9" />

@@ -1,4 +1,5 @@
 .main-chat {
     height: calc(100vh - 100px);
     overflow-y: hidden;
+    margin-top: 100px;
 }

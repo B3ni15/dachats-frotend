@@ -4,6 +4,7 @@ import { getMe } from '../../api/getMe';
 import Navbar from '../../Components/dashNavLayout';
 import '../../../public/css/dash.css';
 import { socket } from '../../api/Dashboard/socket';
+import Sidebar from './Components/Sidebar';
 
 const MainPage: React.FC = () => {
     interface UserData {
@@ -52,57 +53,39 @@ const MainPage: React.FC = () => {
             <Navbar />
             <main>
                 <div className="flex h-screen main-chat">
-                    <div className="w-1/4 bg-[#272727] p-4">
-                        <div className="space-y-4">
-                            {friends.map(friend => (
-                                <div className="flex items-center space-x-4" id={friend?.id}>
-                                    <img className="w-12 h-12 rounded-full object-cover" src={`https://api.dachats.online/api/files?filename=${friend?.avatar}`} alt="profile" />
-                                    <div>
-                                        <h2 className="text-white">{friend?.username}</h2>
-                                        <p className="text-gray-400">{friend?.status}</p>
+                    <Sidebar friends={friends} user={user} />
+
+                    <div className="flex items-center w-3/4 h-full min-h-full bg-[#252525] flex-col max-md:min-w-full">
+                        <div className="w-full p-6 flex flex-col justify-between max-h-full min-h-[calc(100%-70px)]">
+                            <div className="flex-1 space-y-4 overflow-y-auto">
+                                <div className="flex space-x-4">
+                                    <img className="w-12 h-12 rounded-full" src="https://via.placeholder.com/50" alt="user1" />
+                                    <div className="bg-[#D9D9D9] text-black p-3 rounded-lg">
+                                        Szia, mi a helyzet?
                                     </div>
                                 </div>
-                            ))
-                            }
+                                <div className="flex justify-end space-x-4">
+                                    <div className="bg-[#D9D9D9] text-black p-3 rounded-lg">
+                                        Semmi
+                                    </div>
+                                    <img className="w-12 h-12 rounded-full" src="https://via.placeholder.com/50" alt="user2" />
+                                </div>
+                                <div className="flex justify-end space-x-4">
+                                    <div className="bg-[#D9D9D9] text-black p-3 rounded-lg">
+                                        Veled mizus?
+                                    </div>
+                                    <img className="w-12 h-12 rounded-full" src="https://via.placeholder.com/50" alt="user2" />
+                                </div>
+                            </div>
                         </div>
-                        {user ? (
-                            <div className="absolute bottom-0 left-0 w-full p-4 bg-[#1C1C1C] flex items-center">
-                                <div className="flex items-center space-x-4 w-1/4">
-                                    <img className="w-12 h-12 rounded-full object-cover" src={`https://api.dachats.online/api/files?filename=${user?.avatar}`} alt="profile" />
-                                    <span className="text-white">{user?.username}</span>
-                                </div>
-                                <div className="flex-1 flex items-center ml-4">
-                                    <input
-                                        className="w-full p-2 rounded-md bg-[#969696] text-white placeholder-[#FFFFFF] placeholder-opacity-50"
-                                        type="text"
-                                        placeholder="Írj egy üzenetet..."
-                                    />
-                                    <button className="bg-gray-700 text-white p-2 rounded-md ml-2">Küldés</button>
-                                </div>
-                            </div>
-                        ) : null}
-                    </div>
 
-                    <div className="w-3/4 bg-[#252525] p-6 flex flex-col justify-between">
-                        <div className="flex-1 space-y-4 overflow-y-auto">
-                            <div className="flex space-x-4">
-                                <img className="w-12 h-12 rounded-full" src="https://via.placeholder.com/50" alt="user1" />
-                                <div className="bg-[#D9D9D9] text-black p-3 rounded-lg">
-                                    Szia, mi a helyzet?
-                                </div>
-                            </div>
-                            <div className="flex justify-end space-x-4">
-                                <div className="bg-[#D9D9D9] text-black p-3 rounded-lg">
-                                    Semmi
-                                </div>
-                                <img className="w-12 h-12 rounded-full" src="https://via.placeholder.com/50" alt="user2" />
-                            </div>
-                            <div className="flex justify-end space-x-4">
-                                <div className="bg-[#D9D9D9] text-black p-3 rounded-lg">
-                                    Veled mizus?
-                                </div>
-                                <img className="w-12 h-12 rounded-full" src="https://via.placeholder.com/50" alt="user2" />
-                            </div>
+                        <div className="flex-1 flex items-center w-full p-4">
+                            <input
+                                className="w-full p-2 rounded-md bg-[#969696] text-white placeholder-[#FFFFFF] placeholder-opacity-50"
+                                type="text"
+                                placeholder="Írj egy üzenetet..."
+                            />
+                            <button className="bg-gray-700 text-white p-2 rounded-md ml-2">Küldés</button>
                         </div>
                     </div>
                 </div>
