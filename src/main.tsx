@@ -11,6 +11,7 @@ import VerifyPage from './Pages/VerPage'
 import DashboardMain from './Pages/Dashboard/DashboardMain'
 import { store } from './store/store'
 import { Provider } from 'react-redux'
+import PassPage  from './Pages/PassPage'
 
 
 const router = createBrowserRouter([
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
   {
     path: '/verify',
     element: <VerifyPage />,
+  },
+  {
+    path: '/password',
+    element: <PassPage />,
   },
   {
     path: '/dashboard',

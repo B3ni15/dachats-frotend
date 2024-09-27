@@ -19,14 +19,21 @@ const Sidebar: FC<SidebarProps> = ({
     user
 }) => {
     const { sidebarOpen } = useAppSelector(state => state.app);
-    const [friends, setFriends] = useState<Friend[]>(initialFriends);
-    
+
+    const [friends, setFriends] = useState<Friend[]>(
+        initialFriends.map(friend => ({
+            ...friend,
+            status: friend.status || 'offline',
+        }))
+    );
+
     useEffect(() => {
         const setupSocket = async () => {
             const socketInstance = await createSocket();
 
             if (socketInstance) {
                 socketInstance.on('status', (data: { id: string, status: string }) => {
+
                     setFriends(prevFriends =>
                         prevFriends.map(friend =>
                             friend.id === data.id
@@ -54,7 +61,6 @@ const Sidebar: FC<SidebarProps> = ({
             return 'text-gray-500';
         }
     };
-    
 
     return (
         <div className={`w-1/4 bg-[#272727] flex flex-col min-h-full transition-all max-md:-translate-x-full max-md:fixed ease-in-out max-md:w-[300px] ${sidebarOpen ? 'max-md:translate-x-0 max-md:top-0 max-md:z-50' : ''}`}>

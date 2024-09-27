@@ -125,6 +125,13 @@ const LoginPage: React.FC = () => {
                         </div>
                     </form>
                     <p className="text-center text-gray-300 mt-4">
+                        Elfelejtetted a jelszavad?{' '}
+                        <a href="/password" className="text-blue-500 hover:text-blue-700">
+                            Generáld 
+                        </a>{' '}
+                        újra!
+                    </p>
+                    <p className="text-center text-gray-300 mt-4 text-xs">
                         Nincs Fiókod?{' '}
                         <a href="/register" className="text-blue-500 hover:text-blue-700">
                             Csinálj
