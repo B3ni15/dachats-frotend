@@ -5,11 +5,12 @@ export const socket = async () => {
     if (!token) return false;
 
     try {
-        const socket = io(`https://api.dachats.online?token=${token}`, {
+        const socketInstance = io(`https://api.dachats.online`, {
             transports: ['websocket'],
+            query: { token },
         });
 
-        return socket;
+        return socketInstance;
     } catch (error) {
         if (localStorage.getItem('token')) {
             localStorage.removeItem('token');
