@@ -1,6 +1,9 @@
 import { FC, useState, useEffect } from 'react';
 import { useAppSelector } from '../../../store/store';
 import { socket as createSocket } from '../../../api/Dashboard/socket';
+import Arrow from '../../../../public/arrow-right-solid.svg';
+import Gear from '../../../../public/gear-solid.svg';
+import { Chats } from '../../../api/Dashboard/chats';
 
 interface Friend {
     id: string;
@@ -50,30 +53,39 @@ const Sidebar: FC<SidebarProps> = ({
         };
 
         setupSocket();
+        Chats();
     }, []);
 
     const getStatusColor = (status: string) => {
         if (status.toLowerCase() === 'online') {
-            return 'text-green-500';
+            return 'bg-green-500';
         } else if (status.toLowerCase() === 'offline') {
-            return 'text-red-500';
+            return 'bg-red-500';
         } else {
-            return 'text-gray-500';
+            return 'bg-gray-500';
         }
     };
+
+    const hendleChat = (id: string) => {
+        console.log(id);
+    }
 
     return (
         <div className={`w-1/4 bg-[#272727] flex flex-col min-h-full transition-all max-md:-translate-x-full max-md:fixed ease-in-out max-md:w-[300px] ${sidebarOpen ? 'max-md:translate-x-0 max-md:top-0 max-md:z-50' : ''}`}>
             <div className="flex flex-col justify-center items-center space-y-4 mt-4">
                 {friends.map(friend => (
-                    <div className="flex items-center space-x-4 bg-[#1C1C1C] w-11/12 max-w-sm p-4 rounded-lg shadow-lg" key={friend?.id}>
+                    <div className="relative flex items-center space-x-4 bg-[#1C1C1C] w-11/12 max-w-sm p-4 rounded-lg shadow-lg hover:bg-[#333] transition-all" key={friend?.id} style={{cursor: 'pointer'}} >
                         <img className="w-12 h-12 rounded-full object-cover" src={`https://api.dachats.online/api/files?filename=${friend?.avatar}`} alt="profile" />
-                        <div>
+                        <div className="flex-grow">
                             <h2 className="text-white">{friend?.username}</h2>
-                            <p className={getStatusColor(friend?.status)}>
-                                {friend?.status}
-                            </p>
+                            <div className="flex items-center">
+                                <span className={`w-3 h-3 rounded-full ${getStatusColor(friend?.status)} mr-2`}></span>
+                                <p className="text-white">{friend?.status}</p>
+                            </div>
                         </div>
+                        <i className="flex-shrink-0">
+                            <img src={Arrow} className="w-5 h-5 text-white" />
+                        </i>
                     </div>
                 ))}
             </div>
@@ -82,6 +94,9 @@ const Sidebar: FC<SidebarProps> = ({
                 <div className="flex items-center space-x-4 w-full p-4 bg-[#1C1C1C] mt-auto">
                     <img className="w-12 h-12 rounded-full object-cover" src={`https://api.dachats.online/api/files?filename=${user?.avatar}`} alt="profile" />
                     <span className="text-white">{user?.username}</span>
+                    <a className="flex-shrink-0" href='#'>
+                        <img src={Gear} className="w-5 h-5 text-white" />
+                    </a>
                 </div>
             ) : null}
         </div>
