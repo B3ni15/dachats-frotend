@@ -12,6 +12,7 @@ import DashboardMain from './Pages/Dashboard/DashboardMain'
 import { store } from './store/store'
 import { Provider } from 'react-redux'
 import PassPage  from './Pages/PassPage'
+import Profile from './Pages/Dashboard/DashboardProfile'
 
 
 const router = createBrowserRouter([
@@ -43,13 +44,13 @@ const router = createBrowserRouter([
         element: <DashboardMain />,
       },
       {
-        path: '/dashboard/profile',
-        element: <div>Profile</div>,
-      },
-      {
         path: '/dashboard/chat/:id',
         element: <div>Chat</div>,
-      }
+      },
+      {
+        path: '/dashboard/profile',
+        element: <Profile />,
+      },
     ]
   }
 ])

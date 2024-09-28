@@ -7,6 +7,7 @@ interface UserData {
     username: string;
     name: string;
     avatar: string;
+    id: string;
 }
 
 const Navbar: React.FC = () => {
@@ -36,6 +37,10 @@ const Navbar: React.FC = () => {
                 setDropdownOpen(false);
             }
         };
+
+        if (!localStorage.getItem('userid')) {
+            localStorage.setItem('userid', userData?.id ?? '');
+        }
 
         document.addEventListener('mousedown', handleClickOutside);
         return () => {

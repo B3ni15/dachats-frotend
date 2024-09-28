@@ -1,11 +1,12 @@
-import { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect, Key } from 'react';
 import { useAppSelector } from '../../../store/store';
 import { socket as createSocket } from '../../../api/Dashboard/socket';
 import Arrow from '../../../../public/arrow-right-solid.svg';
 import Gear from '../../../../public/gear-solid.svg';
-import { Chats } from '../../../api/Dashboard/chats';
 
 interface Friend {
+    members: any;
+    chatId: Key | null | undefined;
     id: string;
     username: string;
     avatar: string;
@@ -53,34 +54,33 @@ const Sidebar: FC<SidebarProps> = ({
         };
 
         setupSocket();
-        Chats();
     }, []);
 
-    const getStatusColor = (status: string) => {
-        if (status.toLowerCase() === 'online') {
+    const getStatusColor = (status: string | undefined) => {
+        if (status?.toLowerCase() === 'online') {
             return 'bg-green-500';
-        } else if (status.toLowerCase() === 'offline') {
+        } else if (status?.toLowerCase() === 'offline') {
             return 'bg-red-500';
         } else {
             return 'bg-gray-500';
         }
     };
 
-    const hendleChat = (id: string) => {
-        console.log(id);
-    }
+    //const hendleChat = (id: string) => {
+    //    console.log(id);
+    //};
 
     return (
         <div className={`w-1/4 bg-[#272727] flex flex-col min-h-full transition-all max-md:-translate-x-full max-md:fixed ease-in-out max-md:w-[300px] ${sidebarOpen ? 'max-md:translate-x-0 max-md:top-0 max-md:z-50' : ''}`}>
             <div className="flex flex-col justify-center items-center space-y-4 mt-4">
                 {friends.map(friend => (
-                    <div className="relative flex items-center space-x-4 bg-[#1C1C1C] w-11/12 max-w-sm p-4 rounded-lg shadow-lg hover:bg-[#333] transition-all" key={friend?.id} style={{cursor: 'pointer'}} >
-                        <img className="w-12 h-12 rounded-full object-cover" src={`https://api.dachats.online/api/files?filename=${friend?.avatar}`} alt="profile" />
+                    <div className="relative flex items-center space-x-4 bg-[#1C1C1C] w-11/12 max-w-sm p-4 rounded-lg shadow-lg hover:bg-[#333] transition-all" key={friend?.chatId} style={{ cursor: 'pointer' }} >
+                        <img className="w-12 h-12 rounded-full object-cover" src={`https://api.dachats.online/api/files?filename=${friend.members[0]?.avatar}`} alt="profile" />
                         <div className="flex-grow">
-                            <h2 className="text-white">{friend?.username}</h2>
+                            <h2 className="text-white">{friend.members[0]?.username}</h2>
                             <div className="flex items-center">
-                                <span className={`w-3 h-3 rounded-full ${getStatusColor(friend?.status)} mr-2`}></span>
-                                <p className="text-white">{friend?.status}</p>
+                                <span className={`w-3 h-3 rounded-full ${getStatusColor(friend.members[0]?.status)} mr-2`}></span>
+                                <p className="text-white">{friend.members[0]?.status}</p>
                             </div>
                         </div>
                         <i className="flex-shrink-0">

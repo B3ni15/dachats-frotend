@@ -1,6 +1,6 @@
 import React from 'react';
 import Kep from '/image4.png';
-import { toggleSidebar } from '../store/slices/appSlice';
+import { toggleSidebar } from '../../../store/slices/appSlice';
 import { useDispatch } from 'react-redux';
 
 const Navbar: React.FC = () => {

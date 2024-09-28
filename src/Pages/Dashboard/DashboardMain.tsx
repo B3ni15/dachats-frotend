@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Friends } from '../../api/Dashboard/friends';
 import { getMe } from '../../api/getMe';
-import Navbar from '../../Components/dashNavLayout';
+import Navbar from './Components/navLayout';
 import '../../../public/css/dash.css';
 import { socket } from '../../api/Dashboard/socket';
 import Sidebar from './Components/Sidebar';
+import { Chats } from '../../api/Dashboard/chats';
 
 const MainPage: React.FC = () => {
     interface UserData {
@@ -20,6 +20,13 @@ const MainPage: React.FC = () => {
         avatar: string;
         id: string;
         status: string;
+        members: {
+            id: string;
+            username: string;
+            avatar: string;
+            status: string;
+        }[];
+        chatId: string;
     }
 
     const [user, setUser] = useState<UserData | null>(null);
@@ -27,9 +34,11 @@ const MainPage: React.FC = () => {
     const [friends, setFriends] = useState<FriendData[]>([]);
 
     useEffect(() => {
-        Friends().then(data => {
+        Chats().then(data => {
             if (data) {
-                setFriends(data.data);
+                for (let i = 0; i < data.data.length; i++) {
+                    setFriends(prev => [...prev, data.data[i]]);
+                }
             }
         });
         getMe().then(data => {
