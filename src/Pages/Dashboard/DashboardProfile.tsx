@@ -63,7 +63,7 @@ const Profile: React.FC = () => {
         setShowModal(false);
 
         if (message) {
-            toast.success(message, {
+            toast.success('Sikeresen hozzáadás!', {
                 position: "bottom-right",
                 autoClose: 2000,
                 hideProgressBar: false,

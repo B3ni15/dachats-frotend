@@ -94,7 +94,6 @@ const MainPage: React.FC = () => {
                                 type="text"
                                 placeholder="Írj egy üzenetet..."
                             />
-                            {/* mt-4 bg-gradient-to-r from-[#5A230C] to-[#755547] text-white p-2 rounded-lg w-full */}
                             <button className="bg-gradient-to-r from-[#5A230C] to-[#755547] text-white p-2 rounded-lg ml-2">Küldés</button>
                         </div>
                     </div>

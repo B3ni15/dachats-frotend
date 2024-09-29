@@ -3,6 +3,9 @@ import { useAppSelector } from '../../../store/store';
 import { socket as createSocket } from '../../../api/Dashboard/socket';
 import Arrow from '../../../../public/arrow-right-solid.svg';
 import Gear from '../../../../public/gear-solid.svg';
+import { removeFriend } from '../../../api/Dashboard/removeFriend';
+import { ToastContainer, toast, Bounce } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface Friend {
     members: any;
@@ -23,13 +26,54 @@ const Sidebar: FC<SidebarProps> = ({
     user
 }) => {
     const { sidebarOpen } = useAppSelector(state => state.app);
+    const [friends, setFriends] = useState<Friend[]>(initialFriends);
+    const [contextMenu, setContextMenu] = useState<{ x: number; y: number; friendId: string } | null>(null);
 
-    const [friends, setFriends] = useState<Friend[]>(
-        initialFriends.map(friend => ({
-            ...friend,
-            status: friend.status || 'offline',
-        }))
-    );
+    const handleContextMenu = (event: React.MouseEvent, friendId: string) => {
+        event.preventDefault();
+        setContextMenu({
+            x: event.pageX,
+            y: event.pageY,
+            friendId,
+        });
+    };
+
+    const handleCopyId = () => {
+        if (contextMenu) {
+            navigator.clipboard.writeText(contextMenu.friendId);
+            setContextMenu(null);
+        }
+    };
+
+    const handleRemoveFriend = () => {
+        if (contextMenu) {
+            removeFriend(contextMenu.friendId);
+            setFriends(prevFriends => prevFriends.filter(friend => friend.members[0]?.id !== contextMenu.friendId));
+            setContextMenu(null);
+        }
+
+        toast.success('Sikeresen törölve!', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Bounce,
+        });
+    };
+
+    const getStatusColor = (status: string | undefined) => {
+        if (status?.toLowerCase() === 'online') {
+            return 'bg-green-500';
+        } else if (status?.toLowerCase() === 'offline') {
+            return 'bg-red-500';
+        } else {
+            return 'bg-gray-500';
+        }
+    };
 
     useEffect(() => {
         const setupSocket = async () => {
@@ -37,7 +81,6 @@ const Sidebar: FC<SidebarProps> = ({
 
             if (socketInstance) {
                 socketInstance.on('status', (data: { id: string, status: string }) => {
-
                     setFriends(prevFriends =>
                         prevFriends.map(friend =>
                             friend.id === data.id
@@ -56,25 +99,16 @@ const Sidebar: FC<SidebarProps> = ({
         setupSocket();
     }, []);
 
-    const getStatusColor = (status: string | undefined) => {
-        if (status?.toLowerCase() === 'online') {
-            return 'bg-green-500';
-        } else if (status?.toLowerCase() === 'offline') {
-            return 'bg-red-500';
-        } else {
-            return 'bg-gray-500';
-        }
-    };
-
-    //const hendleChat = (id: string) => {
-    //    console.log(id);
-    //};
-
     return (
         <div className={`w-1/4 bg-[#272727] flex flex-col min-h-full transition-all max-md:-translate-x-full max-md:fixed ease-in-out max-md:w-[300px] ${sidebarOpen ? 'max-md:translate-x-0 max-md:top-0 max-md:z-50' : ''}`}>
             <div className="flex flex-col justify-center items-center space-y-4 mt-4">
                 {friends.map(friend => (
-                    <div className="relative flex items-center space-x-4 bg-[#1C1C1C] w-11/12 max-w-sm p-4 rounded-lg shadow-lg hover:bg-[#333] transition-all" key={friend?.chatId} style={{ cursor: 'pointer' }} >
+                    <div
+                        key={friend.chatId}
+                        className="relative flex items-center space-x-4 bg-[#1C1C1C] w-11/12 max-w-sm p-4 rounded-lg shadow-lg hover:bg-[#333] transition-all"
+                        onContextMenu={(event) => handleContextMenu(event, friend.members[0]?.id)}
+                        style={{ cursor: 'pointer' }}
+                    >
                         <img className="w-12 h-12 rounded-full object-cover" src={`https://api.dachats.online/api/files?filename=${friend.members[0]?.avatar}`} alt="profile" />
                         <div className="flex-grow">
                             <h2 className="text-white">{friend.members[0]?.username}</h2>
@@ -90,6 +124,17 @@ const Sidebar: FC<SidebarProps> = ({
                 ))}
             </div>
 
+            {contextMenu && (
+                <div
+                    className="absolute bg-[#1C1C1C] p-2 rounded shadow-lg z-50"
+                    style={{ top: contextMenu.y, left: contextMenu.x }}
+                    onMouseLeave={() => setContextMenu(null)}
+                >
+                    <button className="text-white block w-full text-left" onClick={handleCopyId}>Copy ID</button>
+                    <button className="text-white block w-full text-left" onClick={handleRemoveFriend}>Remove Friend</button>
+                </div>
+            )}
+
             {user ? (
                 <div className="flex items-center space-x-4 w-full p-4 bg-[#1C1C1C] mt-auto">
                     <img className="w-12 h-12 rounded-full object-cover" src={`https://api.dachats.online/api/files?filename=${user?.avatar}`} alt="profile" />
@@ -99,6 +144,19 @@ const Sidebar: FC<SidebarProps> = ({
                     </a>
                 </div>
             ) : null}
+
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                transition={Bounce}
+            />
         </div>
     );
 };
