@@ -94,7 +94,7 @@ const Sidebar: FC<SidebarProps> = ({
                 <div className="flex items-center space-x-4 w-full p-4 bg-[#1C1C1C] mt-auto">
                     <img className="w-12 h-12 rounded-full object-cover" src={`https://api.dachats.online/api/files?filename=${user?.avatar}`} alt="profile" />
                     <span className="text-white">{user?.username}</span>
-                    <a className="flex-shrink-0" href='#'>
+                    <a className="flex-shrink-0" href='/dashboard/profile'>
                         <img src={Gear} className="w-5 h-5 text-white" />
                     </a>
                 </div>
