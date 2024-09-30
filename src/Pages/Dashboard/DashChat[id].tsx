@@ -39,7 +39,7 @@ const ChatPage: React.FC = () => {
     const [user, setUser] = useState<UserData | null>(null);
     const [loading, setLoading] = useState(true);
     const [friends, setFriends] = useState<FriendData[]>([]);
-    const [setChat] = useState<any | null>(null);
+    const [chat, setChat] = useState<any | null>(null);
     const [socketInstance, setSocketInstance] = useState<any>(null);
     const [messages, setMessages] = useState<Message[]>([]);
     const [messageInput, setMessageInput] = useState('');
@@ -54,6 +54,7 @@ const ChatPage: React.FC = () => {
             if (data) {
                 setChat(data);
                 setMessages(data.data.messages);
+                console.log(chat);
             }
         });
 
@@ -74,7 +75,7 @@ const ChatPage: React.FC = () => {
             setSocketInstance(socket);
 
             if (socket) {
-                socket.emit('join', chatId); 
+                socket.emit('join', chatId);
 
                 socket.on('message', (message: Message) => {
                     setMessages(prevMessages => [...prevMessages, message]);
@@ -110,11 +111,14 @@ const ChatPage: React.FC = () => {
 
         const newMessage = {
             from: user.id,
-            usermessage: messageInput,
+            message: messageInput,
             chatid: chatIdRef.current,
         };
 
         socketInstance.emit('message', newMessage);
+
+        setMessages(prevMessages => [...prevMessages, { ...newMessage, time: new Date().toISOString() }]);
+
         setMessageInput('');
     };
 
@@ -132,15 +136,24 @@ const ChatPage: React.FC = () => {
                     <div className="flex items-center w-3/4 h-full min-h-full bg-[#252525] flex-col max-md:min-w-full">
                         <div className="w-full p-6 flex flex-col justify-between max-h-full min-h-[calc(100%-70px)]">
                             <div className="flex-1 space-y-4 overflow-y-auto">
-                                {messages.map((msg, index) => (
-                                    <div key={index} className={`flex ${msg.from === user?.id ? 'justify-end' : ''} space-x-4`}>
-                                        {msg.from !== user?.id && <img className="w-12 h-12 rounded-full" src="https://via.placeholder.com/50" alt="user1" />}
-                                        <div className="bg-[#D9D9D9] text-black p-3 rounded-lg">
-                                            {msg.message}
+                                {messages.map((msg, index) => {
+                                    const senderFriend = friends.find(friend => friend.id === msg.from);
+                                    const senderAvatar = senderFriend ? senderFriend.members[0]?.avatar : 'https://via.placeholder.com/50';
+
+                                    return (
+                                        <div key={index} className={`flex ${msg.from === user?.id ? 'justify-end' : ''} space-x-4`}>
+                                            {msg.from !== user?.id && (
+                                                <img className="w-12 h-12 rounded-full object-cover" src={`https://api.dachats.online/api/files?filename=${senderAvatar}`} alt="user1" />
+                                            )}
+                                            <div className="bg-[#D9D9D9] text-black p-3 rounded-lg">
+                                                {msg.message}
+                                            </div>
+                                            {msg.from === user?.id && (
+                                                <img className="w-12 h-12 rounded-full object-cover" src={`https://api.dachats.online/api/files?filename=${user?.avatar}`} alt="user2" />
+                                            )}
                                         </div>
-                                        {msg.from === user?.id && <img className="w-12 h-12 rounded-full" src="https://via.placeholder.com/50" alt="user2" />}
-                                    </div>
-                                ))}
+                                    );
+                                })}
                             </div>
                         </div>
 

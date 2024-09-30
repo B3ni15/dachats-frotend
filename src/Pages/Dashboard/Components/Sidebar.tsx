@@ -104,13 +104,13 @@ const Sidebar: FC<SidebarProps> = ({
         <div className={`w-1/4 bg-[#272727] flex flex-col min-h-full transition-all max-md:-translate-x-full max-md:fixed ease-in-out max-md:w-[300px] ${sidebarOpen ? 'max-md:translate-x-0 max-md:top-0 max-md:z-50' : ''}`}>
             <div className="flex flex-col justify-center items-center space-y-4 mt-4">
                 {friends.map(friend => (
-                    <Link to={`/dashboard/chat/${friend.chatId}`}>
                         <div
                             key={friend.chatId}
                             className="relative flex items-center space-x-4 bg-[#1C1C1C] w-11/12 max-w-sm p-4 rounded-lg shadow-lg hover:bg-[#333] transition-all"
                             onContextMenu={(event) => handleContextMenu(event, friend.members[0]?.id)}
                             style={{ cursor: 'pointer' }}
                         >
+                            <Link to={`/dashboard/chat/${friend.chatId}`} className="absolute inset-0"></Link>
                             <img className="w-12 h-12 rounded-full object-cover" src={`https://api.dachats.online/api/files?filename=${friend.members[0]?.avatar}`} alt="profile" />
                             <div className="flex-grow">
                                 <h2 className="text-white">{friend.members[0]?.username}</h2>
@@ -123,7 +123,6 @@ const Sidebar: FC<SidebarProps> = ({
                                 <img src={Arrow} className="w-5 h-5 text-white" />
                             </i>
                         </div>
-                    </Link>
                 ))}
             </div>
 
