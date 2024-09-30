@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { getMe } from '../../api/getMe';
 import Navbar from './Components/navLayout';
 import '../../../public/css/dash.css';
-import { socket } from '../../api/Dashboard/socket';
+import { socket as createSocket } from '../../api/Dashboard/socket'; // socket import
 import Sidebar from './Components/Sidebar';
 import { Chats } from '../../api/Dashboard/Chats/chats';
+import { getChat } from '../../api/Dashboard/Chats/GetChat';
 
-const MainPage: React.FC = () => {
+const ChatPage: React.FC = () => {
     interface UserData {
         username: string;
         name: string;
@@ -32,25 +33,65 @@ const MainPage: React.FC = () => {
     const [user, setUser] = useState<UserData | null>(null);
     const [loading, setLoading] = useState(true);
     const [friends, setFriends] = useState<FriendData[]>([]);
+    const [setChat] = useState<any | null>(null);
+    const [socketInstance, setSocketInstance] = useState<any>(null);
 
     useEffect(() => {
-        Chats().then(data => {
+        const url = window.location.href;
+        const chatId = url.split('/').pop();
+
+        getChat(chatId || '', '').then(data => {
             if (data) {
-                for (let i = 0; i < data.data.length; i++) {
-                    setFriends(prev => [...prev, data.data[i]]);
-                }
+                setChat(data);
             }
         });
+
+        Chats().then(data => {
+            if (data) {
+                setFriends(prev => [...prev, ...data.data]);
+            }
+        });
+
         getMe().then(data => {
             if (data) {
                 setUser(data.data);
             }
         });
+
+        const setupSocket = async () => {
+            const socket = await createSocket();
+            setSocketInstance(socket);
+
+            if (socket) {
+                socket.emit('join', chatId);
+
+                socket.on('status', (data: { id: string, status: string }) => {
+                    setFriends(prevFriends =>
+                        prevFriends.map(friend =>
+                            friend.id === data.id
+                                ? { ...friend, status: data.status }
+                                : friend
+                        )
+                    );
+                });
+
+                socket.on('message', (message: any) => {
+                    console.log('New message:', message);
+                });
+            }
+        };
+
+        setupSocket();
+
         setTimeout(() => {
             setLoading(false);
         }, 1500);
 
-        socket();
+        return () => {
+            if (socketInstance) {
+                socketInstance.disconnect();
+            }
+        };
     }, []);
 
     if (loading) {
@@ -103,4 +144,4 @@ const MainPage: React.FC = () => {
     );
 }
 
-export default MainPage;
+export default ChatPage;

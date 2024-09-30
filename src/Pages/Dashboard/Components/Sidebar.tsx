@@ -6,6 +6,7 @@ import Gear from '../../../../public/gear-solid.svg';
 import { removeFriend } from '../../../api/Dashboard/removeFriend';
 import { ToastContainer, toast, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Link } from 'react-router-dom';
 
 interface Friend {
     members: any;
@@ -103,24 +104,26 @@ const Sidebar: FC<SidebarProps> = ({
         <div className={`w-1/4 bg-[#272727] flex flex-col min-h-full transition-all max-md:-translate-x-full max-md:fixed ease-in-out max-md:w-[300px] ${sidebarOpen ? 'max-md:translate-x-0 max-md:top-0 max-md:z-50' : ''}`}>
             <div className="flex flex-col justify-center items-center space-y-4 mt-4">
                 {friends.map(friend => (
-                    <div
-                        key={friend.chatId}
-                        className="relative flex items-center space-x-4 bg-[#1C1C1C] w-11/12 max-w-sm p-4 rounded-lg shadow-lg hover:bg-[#333] transition-all"
-                        onContextMenu={(event) => handleContextMenu(event, friend.members[0]?.id)}
-                        style={{ cursor: 'pointer' }}
-                    >
-                        <img className="w-12 h-12 rounded-full object-cover" src={`https://api.dachats.online/api/files?filename=${friend.members[0]?.avatar}`} alt="profile" />
-                        <div className="flex-grow">
-                            <h2 className="text-white">{friend.members[0]?.username}</h2>
-                            <div className="flex items-center">
-                                <span className={`w-3 h-3 rounded-full ${getStatusColor(friend.members[0]?.status)} mr-2`}></span>
-                                <p className="text-white">{friend.members[0]?.status}</p>
+                    <Link to={`/dashboard/chat/${friend.chatId}`}>
+                        <div
+                            key={friend.chatId}
+                            className="relative flex items-center space-x-4 bg-[#1C1C1C] w-11/12 max-w-sm p-4 rounded-lg shadow-lg hover:bg-[#333] transition-all"
+                            onContextMenu={(event) => handleContextMenu(event, friend.members[0]?.id)}
+                            style={{ cursor: 'pointer' }}
+                        >
+                            <img className="w-12 h-12 rounded-full object-cover" src={`https://api.dachats.online/api/files?filename=${friend.members[0]?.avatar}`} alt="profile" />
+                            <div className="flex-grow">
+                                <h2 className="text-white">{friend.members[0]?.username}</h2>
+                                <div className="flex items-center">
+                                    <span className={`w-3 h-3 rounded-full ${getStatusColor(friend.members[0]?.status)} mr-2`}></span>
+                                    <p className="text-white">{friend.members[0]?.status}</p>
+                                </div>
                             </div>
+                            <i className="flex-shrink-0">
+                                <img src={Arrow} className="w-5 h-5 text-white" />
+                            </i>
                         </div>
-                        <i className="flex-shrink-0">
-                            <img src={Arrow} className="w-5 h-5 text-white" />
-                        </i>
-                    </div>
+                    </Link>
                 ))}
             </div>
 
