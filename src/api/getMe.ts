@@ -13,6 +13,10 @@ export const getMe = async () => {
         });
         const UserData = await user.data;
 
+        if (!localStorage.getItem('userid')) {
+            localStorage.setItem('userid', UserData.data.id);
+        }
+
         return UserData;
     } catch (error) {
         if (localStorage.getItem('token')) {

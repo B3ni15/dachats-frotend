@@ -78,6 +78,10 @@ const ChatPage: React.FC = () => {
                 socket.emit('join', chatId);
 
                 socket.on('message', (message: Message) => {
+                    const userId = localStorage.getItem('userid');
+                    if (!userId) return;
+
+                    if (message.from === userId) return;
                     setMessages(prevMessages => [...prevMessages, message]);
                 });
 
@@ -130,7 +134,7 @@ const ChatPage: React.FC = () => {
         <>
             <Navbar />
             <main>
-                <div className="flex h-screen main-chat">
+                <div className="flex h-screen main-chat px-4">
                     <Sidebar friends={friends} user={user} />
 
                     <div className="flex items-center w-3/4 h-full min-h-full bg-[#252525] flex-col max-md:min-w-full">
