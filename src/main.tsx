@@ -13,7 +13,7 @@ import { store } from './store/store'
 import { Provider } from 'react-redux'
 import PassPage  from './Pages/PassPage'
 import Profile from './Pages/Dashboard/DashboardProfile'
-import ChatPage from './Pages/Dashboard/DashChat[id]'
+import ChatPage from './Pages/Dashboard/DashChat'
 
 
 const router = createBrowserRouter([
