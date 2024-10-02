@@ -61,6 +61,7 @@ const ChatPage: React.FC = () => {
         Chats().then(data => {
             if (data) {
                 setFriends(prev => [...prev, ...data.data]);
+                console.log(data.data);
             }
         });
 
@@ -141,7 +142,7 @@ const ChatPage: React.FC = () => {
                         <div className="w-full p-6 flex flex-col justify-between max-h-full min-h-[calc(100%-70px)]">
                             <div className="flex-1 space-y-4 overflow-y-auto">
                                 {messages.map((msg, index) => {
-                                    const senderFriend = friends.find(friend => friend.id === msg.from);
+                                    const senderFriend = friends.find(friend => friend.members[0].id === msg.from);
                                     const senderAvatar = senderFriend?.members[0]?.avatar;
 
                                     return (
