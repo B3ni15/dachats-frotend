@@ -142,7 +142,7 @@ const ChatPage: React.FC = () => {
                             <div className="flex-1 space-y-4 overflow-y-auto">
                                 {messages.map((msg, index) => {
                                     const senderFriend = friends.find(friend => friend.id === msg.from);
-                                    const senderAvatar = senderFriend ? senderFriend.members[0]?.avatar : 'https://via.placeholder.com/50';
+                                    const senderAvatar = senderFriend?.members[0]?.avatar;
 
                                     return (
                                         <div key={index} className={`flex ${msg.from === user?.id ? 'justify-end' : ''} space-x-4`}>
