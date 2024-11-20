@@ -13,6 +13,12 @@ const MainPage: React.FC = () => {
                         This project is no longer maintained. The code is available for reference, but there will be no further updates.
                         <a href="https://github.com/B3ni15/dachats-frotend">Project On Github</a>
                     </p>
+                    <br />
+                    <h1>What is DaChats?</h1>
+                    <p>
+                        DaChats is a chat application that allows users to create chat rooms and communicate with others.
+                        Users can create an account, join chat rooms, and send messages to other users in the chat room.
+                    </p>
                 </div>
             </div>
         </>
