@@ -16,6 +16,12 @@ const LoginPage: React.FC = () => {
         }
     }, []);
 
+    document.onkeydown = (e) => {
+        if (e.key === 'Enter') {
+            handleLogin();
+        }
+    }
+
     const handleLogin = async () => {
         if (!username || !password) {
             toast.error('Kérlek töltsd ki a mezőket!', {

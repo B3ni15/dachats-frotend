@@ -35,6 +35,12 @@ const ChatPage: React.FC = () => {
         message: string;
         time: string;
     }
+    
+    document.onkeydown = (e) => {
+        if (e.key === 'Enter') {
+            handleSendMessage();
+        }
+    }
 
     const [user, setUser] = useState<UserData | null>(null);
     const [loading, setLoading] = useState(true);
