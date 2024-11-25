@@ -16,6 +16,12 @@ const LoginPage: React.FC = () => {
         }
     }, []);
 
+    addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            handleLogin()
+        }
+    });
+
     const handleLogin = async () => {
         if (!username || !password) {
             toast.error('Kérlek töltsd ki a mezőket!', {
@@ -127,7 +133,7 @@ const LoginPage: React.FC = () => {
                     <p className="text-center text-gray-300 mt-4">
                         Elfelejtetted a jelszavad?{' '}
                         <a href="/password" className="text-blue-500 hover:text-blue-700">
-                            Generáld 
+                            Generáld
                         </a>{' '}
                         újra!
                     </p>

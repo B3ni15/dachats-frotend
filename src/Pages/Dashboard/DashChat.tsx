@@ -15,6 +15,12 @@ const ChatPage: React.FC = () => {
         id: string;
     }
 
+    addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            handleSendMessage()
+        }
+    });
+
     interface FriendData {
         username: string;
         name: string;
