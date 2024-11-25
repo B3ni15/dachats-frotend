@@ -52,6 +52,23 @@ const ChatPage: React.FC = () => {
     const chatIdRef = useRef<string | null>(null);
 
     useEffect(() => {
+        // on load scroll to bottom
+        const chatContainer = document.querySelector('.main-chat');
+
+        if (chatContainer) {
+            chatContainer.scrollTo(0, chatContainer.scrollHeight);
+        }
+
+        // if new message received scroll to bottom (but if the user not scrolled totally down then don't scroll)
+        const chatContainerElement = chatContainer as HTMLElement;
+        chatContainerElement.addEventListener('scroll', () => {
+            if (chatContainerElement.scrollTop + chatContainerElement.clientHeight === chatContainerElement.scrollHeight) {
+                chatContainerElement.scrollTo(0, chatContainerElement.scrollHeight);
+            }
+        });
+
+        
+
         const url = window.location.href;
         const chatId = url.split('/').pop();
         chatIdRef.current = chatId || null;
