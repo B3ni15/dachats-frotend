@@ -16,21 +16,6 @@ const LoginPage: React.FC = () => {
         }
     }, []);
 
-    let isSending = false;
-
-    addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' && !isSending) {
-            isSending = true;
-            handleLogin;
-        }
-    });
-    
-    addEventListener('keyup', function (e) {
-        if (e.key === 'Enter') {
-            isSending = false;
-        }
-    });
-
     const handleLogin = async () => {
         if (!username || !password) {
             toast.error('Kérlek töltsd ki a mezőket!', {

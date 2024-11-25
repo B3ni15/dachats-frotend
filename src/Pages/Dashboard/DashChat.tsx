@@ -15,21 +15,6 @@ const ChatPage: React.FC = () => {
         id: string;
     }
 
-    let isSending = false;
-
-    addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' && !isSending) {
-            isSending = true;
-            handleSendMessage();
-        }
-    });
-
-    addEventListener('keyup', function (e) {
-        if (e.key === 'Enter') {
-            isSending = false;
-        }
-    });
-
     interface FriendData {
         username: string;
         name: string;
