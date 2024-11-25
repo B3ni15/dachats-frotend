@@ -35,7 +35,7 @@ const ChatPage: React.FC = () => {
         message: string;
         time: string;
     }
-    
+
     document.onkeydown = (e) => {
         if (e.key === 'Enter') {
             handleSendMessage();
@@ -52,19 +52,22 @@ const ChatPage: React.FC = () => {
     const chatIdRef = useRef<string | null>(null);
 
     useEffect(() => {
-        // on load scroll to bottom
         const chatContainer = document.querySelector('.main-chat');
 
-        if (chatContainer) {
-            chatContainer.scrollTo(0, chatContainer.scrollHeight);
-        }
+        const scrollToBottom = () => {
+            if (chatContainer) {
+                chatContainer.scrollTo(0, chatContainer.scrollHeight);
+            }
+        };
+
+        // on load scroll to bottom
+        scrollToBottom();
 
         // if new message received scroll to bottom (but if the user not scrolled totally down then don't scroll)
-        const chatContainerElement = chatContainer as HTMLElement;
-        if (chatContainerElement) {
-            chatContainerElement.addEventListener('scroll', () => {
-                if (chatContainerElement.scrollTop + chatContainerElement.clientHeight === chatContainerElement.scrollHeight) {
-                    chatContainerElement.scrollTo(0, chatContainerElement.scrollHeight);
+        if (chatContainer) {
+            chatContainer.addEventListener('scroll', () => {
+                if (chatContainer.scrollTop + chatContainer.clientHeight >= chatContainer.scrollHeight - 10) {
+                    scrollToBottom();
                 }
             });
         }
