@@ -61,11 +61,13 @@ const ChatPage: React.FC = () => {
 
         // if new message received scroll to bottom (but if the user not scrolled totally down then don't scroll)
         const chatContainerElement = chatContainer as HTMLElement;
-        chatContainerElement.addEventListener('scroll', () => {
-            if (chatContainerElement.scrollTop + chatContainerElement.clientHeight === chatContainerElement.scrollHeight) {
-                chatContainerElement.scrollTo(0, chatContainerElement.scrollHeight);
-            }
-        });
+        if (chatContainerElement) {
+            chatContainerElement.addEventListener('scroll', () => {
+                if (chatContainerElement.scrollTop + chatContainerElement.clientHeight === chatContainerElement.scrollHeight) {
+                    chatContainerElement.scrollTo(0, chatContainerElement.scrollHeight);
+                }
+            });
+        }
 
         const url = window.location.href;
         const chatId = url.split('/').pop();
