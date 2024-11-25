@@ -17,14 +17,16 @@ const ChatPage: React.FC = () => {
 
     let isSending = false;
 
-    addEventListener('keypress', function (e) {
+    addEventListener('keydown', function (e) {
         if (e.key === 'Enter' && !isSending) {
             isSending = true;
             handleSendMessage();
+        }
+    });
 
-            setTimeout(() => {
-                isSending = false;
-            }, 300);
+    addEventListener('keyup', function (e) {
+        if (e.key === 'Enter') {
+            isSending = false;
         }
     });
 
