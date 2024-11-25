@@ -67,8 +67,6 @@ const ChatPage: React.FC = () => {
             }
         });
 
-        
-
         const url = window.location.href;
         const chatId = url.split('/').pop();
         chatIdRef.current = chatId || null;
