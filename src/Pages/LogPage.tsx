@@ -16,9 +16,16 @@ const LoginPage: React.FC = () => {
         }
     }, []);
 
+    let isSending = false;
+
     addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') {
-            handleLogin()
+        if (e.key === 'Enter' && !isSending) {
+            isSending = true;
+            handleLogin();
+
+            setTimeout(() => {
+                isSending = false;
+            }, 300);
         }
     });
 
