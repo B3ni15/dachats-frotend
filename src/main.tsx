@@ -15,7 +15,6 @@ import PassPage  from './Pages/PassPage'
 import Profile from './Pages/Dashboard/DashboardProfile'
 import ChatPage from './Pages/Dashboard/DashChat'
 
-
 const router = createBrowserRouter([
   {
     path: '/',
