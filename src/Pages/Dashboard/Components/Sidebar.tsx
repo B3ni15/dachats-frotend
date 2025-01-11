@@ -4,7 +4,6 @@ import { socket as createSocket } from '../../../api/Dashboard/socket';
 import Arrow from '../../../../public/arrow-right-solid.svg';
 import Gear from '../../../../public/gear-solid.svg';
 import 'react-toastify/dist/ReactToastify.css';
-import { Link } from 'react-router-dom';
 
 interface Friend {
     members: any;
@@ -74,7 +73,7 @@ const Sidebar: FC<SidebarProps> = ({
                         className="relative flex items-center space-x-4 bg-[#1C1C1C] w-11/12 max-w-sm p-4 rounded-lg shadow-lg hover:bg-[#333] transition-all"
                         style={{ cursor: 'pointer' }}
                     >
-                        <Link to={`/dashboard/chat/${friend.chatId}`} className="absolute inset-0"></Link>
+                        <a href={`/dashboard/chat/${friend.chatId}`} className="absolute inset-0"></a>
                         <img className="w-12 h-12 rounded-full object-cover" src={`https://api.dachats.online/api/files?filename=${friend.members[0]?.avatar}`} alt="profile" />
                         <div className="flex-grow">
                             <h2 className="text-white">{friend.members[0]?.username}</h2>
