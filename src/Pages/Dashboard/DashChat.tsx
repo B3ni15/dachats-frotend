@@ -141,7 +141,7 @@ const ChatPage: React.FC = () => {
         <>
             <Navbar />
             <main>
-                <div className="flex h-screen main-chat px-4">
+                <div className="flex h-screen main-chat">
                     <Sidebar friends={friends} user={user} />
 
                     <div className="flex items-center w-3/4 h-full min-h-full bg-[#252525] flex-col max-md:min-w-full">

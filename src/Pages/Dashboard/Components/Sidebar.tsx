@@ -1,9 +1,10 @@
 import { FC, useState, useEffect, Key } from 'react';
 import { useAppSelector } from '../../../store/store';
 import { socket as createSocket } from '../../../api/Dashboard/socket';
-import Arrow from '../../../../public/arrow-right-solid.svg';
-import Gear from '../../../../public/gear-solid.svg';
 import 'react-toastify/dist/ReactToastify.css';
+import { FaGear } from "react-icons/fa6";
+import { IoLogOut } from "react-icons/io5";
+import { FaArrowRight } from "react-icons/fa";
 
 interface Friend {
     members: any;
@@ -51,7 +52,7 @@ const Sidebar: FC<SidebarProps> = ({
                                 : friend
                         )
                     );
-                });                
+                });
             }
         };
 
@@ -83,7 +84,7 @@ const Sidebar: FC<SidebarProps> = ({
                             </div>
                         </div>
                         <i className="flex-shrink-0">
-                            <img src={Arrow} className="w-5 h-5 text-white" />
+                            <FaArrowRight className='w-5 h-5 text-white' />
                         </i>
                     </div>
                 ))}
@@ -93,9 +94,14 @@ const Sidebar: FC<SidebarProps> = ({
                 <div className="flex items-center space-x-4 w-full p-4 bg-[#1C1C1C] mt-auto">
                     <img className="w-12 h-12 rounded-full object-cover" src={`https://api.dachats.online/api/files?filename=${user?.avatar}`} alt="profile" />
                     <span className="text-white">{user?.username}</span>
-                    <a className="flex-shrink-0" href='/dashboard/profile'>
-                        <img src={Gear} className="w-5 h-5 text-white" />
-                    </a>
+                    <div className='flex items-center space-x-4'>
+                        <a className="flex-shrink-0" href='/dashboard/profile'>
+                            <FaGear className='w-5 h-5 text-white' />
+                        </a>
+                        <a className="flex-shrink-0 cursor-pointer" onClick={() => { localStorage.removeItem('token'); window.location.href = '/login' }}>
+                            <IoLogOut className='w-6 h-6 text-white' />
+                        </a>
+                    </div>
                 </div>
             ) : null}
         </div>

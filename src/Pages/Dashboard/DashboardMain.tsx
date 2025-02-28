@@ -67,24 +67,7 @@ const MainPage: React.FC = () => {
                     <div className="flex items-center w-3/4 h-full min-h-full bg-[#252525] flex-col max-md:min-w-full">
                         <div className="w-full p-6 flex flex-col justify-between max-h-full min-h-[calc(100%-70px)]">
                             <div className="flex-1 space-y-4 overflow-y-auto">
-                                <div className="flex space-x-4">
-                                    <img className="w-12 h-12 rounded-full" src="https://via.placeholder.com/50" alt="user1" />
-                                    <div className="bg-[#D9D9D9] text-black p-3 rounded-lg">
-                                        Szia, mi a helyzet?
-                                    </div>
-                                </div>
-                                <div className="flex justify-end space-x-4">
-                                    <div className="bg-[#D9D9D9] text-black p-3 rounded-lg">
-                                        Semmi
-                                    </div>
-                                    <img className="w-12 h-12 rounded-full" src="https://via.placeholder.com/50" alt="user2" />
-                                </div>
-                                <div className="flex justify-end space-x-4">
-                                    <div className="bg-[#D9D9D9] text-black p-3 rounded-lg">
-                                        Veled mizus?
-                                    </div>
-                                    <img className="w-12 h-12 rounded-full" src="https://via.placeholder.com/50" alt="user2" />
-                                </div>
+                               
                             </div>
                         </div>
 
